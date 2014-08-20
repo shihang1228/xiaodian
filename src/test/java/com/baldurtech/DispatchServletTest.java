@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class DispatchServletTest
 {
     @Test
-    public void service_Ö»ÊÇÒ»¸ö²âÊÔ() throws ServletException, IOException
+    public void service_åªæ˜¯ä¸€ä¸ªæµ‹è¯•() throws ServletException, IOException
     {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
