@@ -12,11 +12,9 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
-public class DispatchServletTest
-{
+public class DispatchServletTest{
     @Test
-    public void service_只是一个测试() throws ServletException, IOException
-    {
+    public void service_只是一个测试() throws ServletException, IOException{
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         PrintWriter out = mock(PrintWriter.class);
@@ -30,4 +28,11 @@ public class DispatchServletTest
         verify(out).println("hello, /xiaodian");
         
     }
+    
+    @Test
+    public void uri_contact_show_应该返回ContactAction(){
+        DispatchServlet servlet = new DispatchServlet();
+        assertEquals("ContactAction", servlet.getClassByUri("/contact/show"));
+    }
+
 }
