@@ -19,6 +19,10 @@ public class DispatchServlet extends HttpServlet {
         return capitalize(uriParts[indexOfActionClassName] + "Action");
     }
     
+    public String getMethodByUri(String uri){
+        return "";
+    }
+    
     public String[] splitBySlash(String uri) {
         String[] uriParts = uri.split("/");
         return uriParts;

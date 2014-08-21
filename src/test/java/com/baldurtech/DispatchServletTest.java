@@ -40,5 +40,11 @@ public class DispatchServletTest{
         DispatchServlet servlet = new DispatchServlet();
         assertEquals("ContactAction", servlet.getClassByUri("/contact"));
     }
+    
+    @Test
+    public void uri_contact_show_应该由返回show方法(){
+        DispatchServlet servlet = new DispatchServlet();
+        assertEquals("show", servlet.getMethodByUri("/comtact/show"));
+    }
 
 }
