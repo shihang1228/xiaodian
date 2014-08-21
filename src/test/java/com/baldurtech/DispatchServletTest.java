@@ -36,18 +36,22 @@ public class DispatchServletTest{
     }
     
     @Test
-    public void uri_contact_show_应该返回ContactAction() {
-        assertEquals("ContactAction", servlet.getClassByUri("/contact/show.do"));
+    public void uri_contact_show_do应该返回ContactAction() {
+        assertEquals("ContactAction", servlet.getClassNameByUri("/contact/show.do"));
     }
     
     @Test 
-    public void uri_contact_show_也应该返回ContactAction() {
-        assertEquals("ContactAction", servlet.getClassByUri("/contact.do"));
+    public void uri_contact_do也应该返回ContactAction() {
+        assertEquals("ContactAction", servlet.getClassNameByUri("/contact.do"));
     }
     
     @Test
-    public void uri_contact_show_应该由返回show方法() {
-        assertEquals("show", servlet.getMethodByUri("/comtact/show.do"));
+    public void uri_contact_show_do应该返回show方法() {
+        assertEquals("show", servlet.getMethodNameByUri("/comtact/show.do"));
     }
-
+    
+    @Test
+    public void uri_contact_do应该返回index方法() {
+        assertEquals("index", servlet.getMethodNameByUri("/comtact.do"));
+    }
 }

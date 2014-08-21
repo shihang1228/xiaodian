@@ -7,23 +7,27 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 public class DispatchServlet extends HttpServlet {
+    static String suffix = ".do";
+
     public void service(HttpServletRequest req, HttpServletResponse resp) 
                         throws IOException,ServletException
     {
         resp.getWriter().println("hello, " + req.getContextPath());
     }
     
-    public String getClassByUri(String uri) {
+    public String getClassNameByUri(String uri) {
         Integer indexOfActionClassName = 1;
-        String classsuffix = ".do";
         String[] uriParts = splitBySlash(uri);
-        return capitalize(uriParts[indexOfActionClassName].replace(classsuffix, "") + "Action");
+        return capitalize(removeSuffix(uriParts[indexOfActionClassName]) + "Action");
     }
     
-    public String getMethodByUri(String uri){
+    public String getMethodNameByUri(String uri){
         Integer indexOfActionMethodName = 2;
-        String methodsuffix = ".do";
-        return splitBySlash(uri)[indexOfActionMethodName].replace(methodsuffix, "");
+        String[] uriParts = splitBySlash(uri);
+        if (uriParts.length <= indexOfActionMethodName){
+            return "index";
+        }
+        return removeSuffix(splitBySlash(uri)[indexOfActionMethodName]);
     }
     
     public String[] splitBySlash(String uri) {
@@ -33,5 +37,8 @@ public class DispatchServlet extends HttpServlet {
     
     public String capitalize(String str) {
         return str.substring(0,1).toUpperCase() + str.substring(1);
+    }
+    public String removeSuffix(String str) {
+        return str.replace(suffix, "");
     }
 }
