@@ -38,7 +38,7 @@ public class DispatchServletTest{
     @Test 
     public void uri_contact_show_也应该返回ContactAction(){
         DispatchServlet servlet = new DispatchServlet();
-        assertEquals("ContactAction", servlet.getClassByUri("/contact"));
+        assertEquals("ContactAction", servlet.getClassByUri("/contact.do"));
     }
     
     @Test

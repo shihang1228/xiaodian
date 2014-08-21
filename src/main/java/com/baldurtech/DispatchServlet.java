@@ -15,8 +15,9 @@ public class DispatchServlet extends HttpServlet {
     
     public String getClassByUri(String uri) {
         Integer indexOfActionClassName = 1;
+        String classsuffix = ".do";
         String[] uriParts = splitBySlash(uri);
-        return capitalize(uriParts[indexOfActionClassName] + "Action");
+        return capitalize(uriParts[indexOfActionClassName].replace(classsuffix, "") + "Action");
     }
     
     public String getMethodByUri(String uri){
