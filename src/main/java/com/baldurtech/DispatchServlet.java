@@ -21,7 +21,8 @@ public class DispatchServlet extends HttpServlet {
     
     public String getMethodByUri(String uri){
         Integer indexOfActionMethodName = 2;
-        return splitBySlash(uri)[indexOfActionMethodName];
+        String methodsuffix = ".do";
+        return splitBySlash(uri)[indexOfActionMethodName].replace(methodsuffix, "");
     }
     
     public String[] splitBySlash(String uri) {
