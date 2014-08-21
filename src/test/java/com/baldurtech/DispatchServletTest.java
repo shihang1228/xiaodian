@@ -13,6 +13,13 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 
 public class DispatchServletTest{
+    DispatchServlet servlet;
+    
+    @Before
+    public void setup() {
+        servlet =new DispatchServlet();
+    }
+    
     @Test
     public void service_只是一个测试() throws ServletException, IOException{
         HttpServletRequest req = mock(HttpServletRequest.class);
@@ -22,7 +29,6 @@ public class DispatchServletTest{
         when(resp.getWriter()).thenReturn(out);
         when(req.getContextPath()).thenReturn("/xiaodian");
         
-        DispatchServlet servlet = new DispatchServlet();
         servlet.service(req,resp);
         
         verify(out).println("hello, /xiaodian");
@@ -30,20 +36,17 @@ public class DispatchServletTest{
     }
     
     @Test
-    public void uri_contact_show_应该返回ContactAction(){
-        DispatchServlet servlet = new DispatchServlet();
+    public void uri_contact_show_应该返回ContactAction() {
         assertEquals("ContactAction", servlet.getClassByUri("/contact/show.do"));
     }
     
     @Test 
-    public void uri_contact_show_也应该返回ContactAction(){
-        DispatchServlet servlet = new DispatchServlet();
+    public void uri_contact_show_也应该返回ContactAction() {
         assertEquals("ContactAction", servlet.getClassByUri("/contact.do"));
     }
     
     @Test
-    public void uri_contact_show_应该由返回show方法(){
-        DispatchServlet servlet = new DispatchServlet();
+    public void uri_contact_show_应该由返回show方法() {
         assertEquals("show", servlet.getMethodByUri("/comtact/show.do"));
     }
 
