@@ -20,7 +20,8 @@ public class DispatchServlet extends HttpServlet {
     }
     
     public String getMethodByUri(String uri){
-        return "";
+        Integer indexOfActionMethodName = 2;
+        return splitBySlash(uri)[indexOfActionMethodName];
     }
     
     public String[] splitBySlash(String uri) {
