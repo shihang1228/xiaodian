@@ -21,13 +21,17 @@ public class DispatchServlet extends HttpServlet {
         return capitalize(removeSuffix(uriParts[indexOfActionClassName]) + "Action");
     }
     
-    public String getMethodNameByUri(String uri){
+    public String getMethodNameByUri(String uri) {
         Integer indexOfActionMethodName = 2;
         String[] uriParts = splitBySlash(uri);
         if (uriParts.length <= indexOfActionMethodName){
             return "index";
         }
         return removeSuffix(splitBySlash(uri)[indexOfActionMethodName]);
+    }
+    
+    public String getViewPage(String uri) {
+        return "/WEB-INF/jsp" + uri;
     }
     
     public String[] splitBySlash(String uri) {

@@ -54,4 +54,12 @@ public class DispatchServletTest{
     public void uri_contact_do应该返回index方法() {
         assertEquals("index", servlet.getMethodNameByUri("/comtact.do"));
     }
+
+    @Test
+    public void uri_contact_show_的显示页面是_jsp_contact_show() {
+        assertEquals("/WEB-INF/jsp/contact/show.jsp", servlet.getViewPage("/contact/show.jsp"));
+    }
+    
+    
+    
 }
