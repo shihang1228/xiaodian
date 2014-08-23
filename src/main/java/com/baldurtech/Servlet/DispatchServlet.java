@@ -1,4 +1,4 @@
-package com.baldurtech;
+package com.baldurtech.servlet;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
