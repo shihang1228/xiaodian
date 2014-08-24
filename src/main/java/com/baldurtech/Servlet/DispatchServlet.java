@@ -3,17 +3,34 @@ package com.baldurtech.servlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.IOException;
+
+import com.baldurtech.action.Action;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 public class DispatchServlet extends HttpServlet {
     static String suffix = ".do";
 
     public void service(HttpServletRequest req, HttpServletResponse resp) 
                         throws IOException,ServletException
-    {
-        resp.getWriter().println("hello, " + req.getContextPath());
-    }
+    {   
+        try {
+            String uri = req.getRequestURI();
+            ServletContext servletContext = getServletContext();
+            Class actionClass = Class.forName(getClassNameByUri(uri));
+            Constructor actionConstructor = actionClass.getDeclaredConstructor(ServletContext.class,
+                                                        HttpServletRequest.class, HttpServletResponse.class);
+            Action actionInstance = (Action) actionConstructor.newInstance(servletContext, req, resp);
+            Method method = actionClass.getDeclaredMethod(getMethodNameByUri(uri));
+            method.invoke(actionInstance); 
+        } catch(Exception e) {
+        
+        }
+    }    
     
     public String getClassNameByUri(String uri) {
         Integer indexOfActionClassName = 1;
@@ -30,9 +47,6 @@ public class DispatchServlet extends HttpServlet {
         return removeSuffix(splitBySlash(uri)[indexOfActionMethodName]);
     }
     
-    public String getViewPage(String uri) {
-        return "/WEB-INF/jsp" + uri;
-    }
     
     public String[] splitBySlash(String uri) {
         String[] uriParts = uri.split("/");
