@@ -88,4 +88,15 @@ public class DispatchServletTest{
         verify(req).setAttribute("2", 2);    
     }
    
+    @Test
+    public void returnValue_不是map且不为空时应该设置属性() {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        String uri = "/contact/show.do";
+        Object returnValue = new Object();
+        
+        servlet.jspTemplateEngine(uri, returnValue, req, resp);
+        
+        verify(req).setAttribute("data", returnValue);    
+    }
 }
