@@ -99,4 +99,16 @@ public class DispatchServletTest{
         
         verify(req).setAttribute("data", returnValue);    
     }
+    
+    @Test
+    public void returnValue_为空时不应该设置属性() {
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        String uri = "/contact/show.do";
+        Object returnValue = null;
+        
+        servlet.jspTemplateEngine(uri, returnValue, req, resp);
+        
+        verify(req, never()).setAttribute(anyString(), anyObject());    
+    }
 }
