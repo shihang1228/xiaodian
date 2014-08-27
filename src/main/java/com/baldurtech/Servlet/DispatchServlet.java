@@ -11,6 +11,7 @@ import com.baldurtech.action.Action;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class DispatchServlet extends HttpServlet {
     static String suffix = ".do";
@@ -19,20 +20,44 @@ public class DispatchServlet extends HttpServlet {
                         throws IOException,ServletException
     {   
         try {
-            String uri = req.getRequestURI();
+            String uri = req.getRequestURI().replace(req.getContextPath(), "");
+            System.out.println(uri);
+            
             ServletContext servletContext = getServletContext();
             Class actionClass = Class.forName(getClassNameByUri(uri));
             Constructor actionConstructor = actionClass.getDeclaredConstructor(ServletContext.class,
                                                         HttpServletRequest.class, HttpServletResponse.class);
             Action actionInstance = (Action) actionConstructor.newInstance(servletContext, req, resp);
             Method method = actionClass.getDeclaredMethod(getMethodNameByUri(uri));
-            method.invoke(actionInstance); 
+            Object returnValue = method.invoke(actionInstance); 
+            
+            jspTemplateEngine(uri, returnValue, req, resp);
         } catch(Exception e) {
-        
+           
         }
-    }    
+    }
+    
+    public void jspTemplateEngine(String uri, Object returnValue, HttpServletRequest req, HttpServletResponse resp) {
+        try{
+            if(null == returnValue) {
+                return;
+            }
+            if(returnValue instanceof Map) {
+                Map<String, Object> dataModel = (Map<String, Object>) returnValue;
+                for(String key: dataModel.keySet()) {
+                    req.setAttribute(key, dataModel.get(key));
+                }
+            }else {
+                req.setAttribute("data", returnValue);
+            }
+            getServletContext().getRequestDispatcher(getViewPage(uri)).forward(req, resp);
+        } catch(Exception e) {
+            
+        }
+    }
     
     public String getClassNameByUri(String uri) {
+        System.out.println(uri);
         Integer indexOfActionClassName = 1;
         String[] uriParts = splitBySlash(uri);
         return capitalize(removeSuffix(uriParts[indexOfActionClassName]) + "Action");
@@ -58,5 +83,9 @@ public class DispatchServlet extends HttpServlet {
     }
     public String removeSuffix(String str) {
         return str.replace(suffix, "");
+    }
+    
+    public String getViewPage(String uri) {
+        return "/WEB-INF/jsp" + removeSuffix(uri) + ".jsp";
     }
 }
