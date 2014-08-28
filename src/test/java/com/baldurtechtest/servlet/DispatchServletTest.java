@@ -42,12 +42,12 @@ public class DispatchServletTest{
     */
     @Test
     public void uri_contact_show_do应该返回ContactAction() {
-        assertEquals("ContactAction", servlet.getClassNameByUri("/contact/show.do"));
+        assertEquals("com.baldurtech.action.ContactAction", servlet.getClassNameByUri("/contact/show.do"));
     }
     
     @Test 
     public void uri_contact_do也应该返回ContactAction() {
-        assertEquals("ContactAction", servlet.getClassNameByUri("/contact.do"));
+        assertEquals("com.baldurtech.action.ContactAction", servlet.getClassNameByUri("/contact.do"));
     }
     
     @Test
