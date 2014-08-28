@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class Action {
+public abstract class Action {
     final ServletContext servletContext;
     final HttpServletRequest req;
     final HttpServletResponse resp;
@@ -15,6 +15,6 @@ public class Action {
         this.resp = resp;
     }
     
-    
+    public abstract void index();
     
 }
