@@ -19,12 +19,12 @@ public class ContactAction extends Action{
     }
     
     public void index() throws IOException {
-        resp.sendRedirect("contact/list.do");
+        resp.sendRedirect(toRealUri("contact/list"));
     }
     
     public Contact show() throws IOException {
         if(req.getParameter("id") == null || req.getParameter("id") == "") {
-            resp.sendRedirect("list.do");
+            resp.sendRedirect(toRealUri("contact/list"));
             return null;
         }
         return null;

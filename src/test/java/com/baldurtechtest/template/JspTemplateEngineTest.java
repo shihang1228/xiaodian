@@ -52,14 +52,4 @@ public class JspTemplateEngineTest {
         
         verify(req).setAttribute("data", returnValue);    
     }
-    
-    @Test
-    public void returnValue_为空时不应该设置属性() {
-        String page = "WEB-INF/jsp/contact/show.jsp";
-        Object returnValue = null;
-        
-        template.merge(page, returnValue);
-        
-        verify(req, never()).setAttribute(anyString(), anyObject());    
-    }
 }

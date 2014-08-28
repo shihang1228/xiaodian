@@ -22,24 +22,26 @@ public class ContactActionTest {
         req = mock(HttpServletRequest.class);
         resp = mock(HttpServletResponse.class);
         servletContext = mock(ServletContext.class);
+        when(req.getContextPath()).thenReturn("/xiaodian");
         
         contactAction = new ContactAction(servletContext,req, resp);
+        
     }
     
     @Test
     public void 当调用index方法时重定向到contact_list() throws IOException{
         contactAction.index();
         
-        verify(resp).sendRedirect("contact/list.do");
+        verify(resp).sendRedirect("/xiaodian/contact/list.do");
     }
     
     @Test
     public void Uri_contact_show当id为null时应该跳转到list页面() throws IOException {
         when(req.getParameter("id")).thenReturn(null);
-        
+    
         contactAction.show();
         
-        verify(resp).sendRedirect("contact/list.do");
+        verify(resp).sendRedirect("/xiaodian/contact/list.do");
     }
     
     @Test
@@ -48,6 +50,6 @@ public class ContactActionTest {
         
         contactAction.show();
         
-        verify(resp).sendRedirect("contact/list.do");
+        verify(resp).sendRedirect("/xiaodian/contact/list.do");
     }
 }
