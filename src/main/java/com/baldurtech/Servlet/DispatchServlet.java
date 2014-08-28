@@ -24,18 +24,17 @@ public class DispatchServlet extends HttpServlet {
     {   
         try {
             String uri = req.getRequestURI().replace(req.getContextPath(), "");
+            System.out.println(uri);
            
             Class actionClass = Class.forName(getClassNameByUri(uri));
             Constructor actionConstructor = actionClass.getDeclaredConstructor(ServletContext.class,
                                                     HttpServletRequest.class, HttpServletResponse.class);
             Action actionInstance = (Action) actionConstructor.newInstance(getServletContext(), req, resp);
- 
             Method method = actionClass.getDeclaredMethod(getMethodNameByUri(uri));
             Object returnValue = method.invoke(actionInstance); 
             
             JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
             template.merge(getViewPage(uri), returnValue);
-            
         } catch(NoSuchMethodException me) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }catch(ClassNotFoundException fe) {
@@ -50,9 +49,10 @@ public class DispatchServlet extends HttpServlet {
     }
     
     public String getClassNameByUri(String uri) {
+        System.out.println(uri);
         Integer indexOfActionClassName = 1;
         String[] uriParts = splitBySlash(uri);
-        return "com.baldurtech.action." + capitalize(removeSuffix(uriParts[indexOfActionClassName]) + "Action");
+        return capitalize(removeSuffix(uriParts[indexOfActionClassName]) + "Action");
     }
     
     public String getMethodNameByUri(String uri) {

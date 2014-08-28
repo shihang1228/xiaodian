@@ -15,7 +15,7 @@ public class ContactAction extends Action{
         return null;
     }
     
-    public void index() throws java.io.IOException {
-        resp.sendRedirect("contact/list");
+    public void index() {
+        list();
     }
 }
