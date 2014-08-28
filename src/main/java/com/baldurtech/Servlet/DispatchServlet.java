@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import com.baldurtech.action.Action;
 import com.baldurtech.template.JspTemplateEngine;
@@ -33,8 +35,16 @@ public class DispatchServlet extends HttpServlet {
             
             JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
             template.merge(getViewPage(uri), returnValue);
-        } catch(Exception e) {
-           
+        } catch(NoSuchMethodException me) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }catch(ClassNotFoundException fe) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }catch(IllegalAccessException ae) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }catch(InstantiationException ie) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);        
+        }catch(InvocationTargetException te) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);        
         }
     }
     

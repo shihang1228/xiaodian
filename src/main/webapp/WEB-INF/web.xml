@@ -6,7 +6,7 @@
     <display-name>Archetype Created Web Application</display-name>
     <servlet>
         <servlet-name>dispatchServlet</servlet-name>
-        <servlet-class>com.baldurtech.DispatchServlet</servlet-class>
+        <servlet-class>com.baldurtech.servlet.DispatchServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatchServlet</servlet-name>
