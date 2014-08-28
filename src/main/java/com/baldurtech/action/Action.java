@@ -15,8 +15,6 @@ public class Action {
         this.resp = resp;
     }
     
-    public String getViewPage(String uri) {
-        return "/WEB-INF/jsp" + uri;
-    }
+    
     
 }

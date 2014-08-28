@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 import com.baldurtech.action.Action;
+import com.baldurtech.template.JspTemplateEngine;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,37 +23,18 @@ public class DispatchServlet extends HttpServlet {
         try {
             String uri = req.getRequestURI().replace(req.getContextPath(), "");
             System.out.println(uri);
-            
-            ServletContext servletContext = getServletContext();
+           
             Class actionClass = Class.forName(getClassNameByUri(uri));
             Constructor actionConstructor = actionClass.getDeclaredConstructor(ServletContext.class,
-                                                        HttpServletRequest.class, HttpServletResponse.class);
-            Action actionInstance = (Action) actionConstructor.newInstance(servletContext, req, resp);
+                                                    HttpServletRequest.class, HttpServletResponse.class);
+            Action actionInstance = (Action) actionConstructor.newInstance(getServletContext(), req, resp);
             Method method = actionClass.getDeclaredMethod(getMethodNameByUri(uri));
             Object returnValue = method.invoke(actionInstance); 
             
-            jspTemplateEngine(uri, returnValue, req, resp);
+            JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
+            template.merge(getViewPage(uri), returnValue);
         } catch(Exception e) {
            
-        }
-    }
-    
-    public void jspTemplateEngine(String uri, Object returnValue, HttpServletRequest req, HttpServletResponse resp) {
-        try{
-            if(null == returnValue) {
-                return;
-            }
-            if(returnValue instanceof Map) {
-                Map<String, Object> dataModel = (Map<String, Object>) returnValue;
-                for(String key: dataModel.keySet()) {
-                    req.setAttribute(key, dataModel.get(key));
-                }
-            }else {
-                req.setAttribute("data", returnValue);
-            }
-            getServletContext().getRequestDispatcher(getViewPage(uri)).forward(req, resp);
-        } catch(Exception e) {
-            
         }
     }
     

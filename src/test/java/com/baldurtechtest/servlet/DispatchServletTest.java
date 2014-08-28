@@ -2,16 +2,13 @@ package com.baldurtech.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletConfig;
 
-import java.io.PrintWriter;
-import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 
 import com.baldurtech.action.Action;
+import com.baldurtech.template.JspTemplateEngine;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -70,45 +67,5 @@ public class DispatchServletTest{
         HttpServletResponse resp = mock(HttpServletResponse.class);
    
         assertEquals("/WEB-INF/jsp/contact/show.jsp", servlet.getViewPage("/contact/show.do"));
-    }
-    
-    @Test
-    public void returnValue_为Map时应该循环设置属性() {
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        String uri = "/contact/show.do";
-        Map<String, Object> returnValue = new HashMap<String, Object>(){{
-            put("1", 1);
-            put("2", 2);
-        }};
-        
-        servlet.jspTemplateEngine(uri, returnValue, req, resp);
-        
-        verify(req).setAttribute("1", 1);
-        verify(req).setAttribute("2", 2);    
-    }
-   
-    @Test
-    public void returnValue_不是map且不为空时应该设置属性() {
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        String uri = "/contact/show.do";
-        Object returnValue = new Object();
-        
-        servlet.jspTemplateEngine(uri, returnValue, req, resp);
-        
-        verify(req).setAttribute("data", returnValue);    
-    }
-    
-    @Test
-    public void returnValue_为空时不应该设置属性() {
-        HttpServletRequest req = mock(HttpServletRequest.class);
-        HttpServletResponse resp = mock(HttpServletResponse.class);
-        String uri = "/contact/show.do";
-        Object returnValue = null;
-        
-        servlet.jspTemplateEngine(uri, returnValue, req, resp);
-        
-        verify(req, never()).setAttribute(anyString(), anyObject());    
     }
 }
