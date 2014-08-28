@@ -15,6 +15,6 @@ public abstract class Action {
         this.resp = resp;
     }
     
-    public abstract void index();
+    public abstract void index() throws java.io.IOException;
     
 }
