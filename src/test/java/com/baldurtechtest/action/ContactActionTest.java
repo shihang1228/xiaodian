@@ -30,7 +30,7 @@ public class ContactActionTest {
     public void 当调用index方法时重定向到contact_list() throws IOException{
         contactAction.index();
         
-        verify(resp).sendRedirect("contact/list");
+        verify(resp).sendRedirect("contact/list.do");
     }
     
     @Test
@@ -39,7 +39,7 @@ public class ContactActionTest {
         
         contactAction.show();
         
-        verify(resp).sendRedirect("contact/list");
+        verify(resp).sendRedirect("contact/list.do");
     }
     
     @Test
@@ -48,6 +48,6 @@ public class ContactActionTest {
         
         contactAction.show();
         
-        verify(resp).sendRedirect("contact/list");
+        verify(resp).sendRedirect("contact/list.do");
     }
 }
