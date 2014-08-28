@@ -32,8 +32,11 @@ public class DispatchServlet extends HttpServlet {
             Method method = actionClass.getDeclaredMethod(getMethodNameByUri(uri));
             Object returnValue = method.invoke(actionInstance); 
             
-            JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
-            template.merge(getViewPage(uri), returnValue);
+            if(null == returnValue) { 
+                JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
+                template.merge(getViewPage(uri), returnValue);
+                return;
+            }
         } catch(NoSuchMethodException me) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }catch(ClassNotFoundException fe) {

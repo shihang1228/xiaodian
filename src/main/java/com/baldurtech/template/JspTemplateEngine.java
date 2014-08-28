@@ -21,9 +21,6 @@ public class JspTemplateEngine implements TemplateEngine{
     
     public void merge(String page, Object returnValue) {
         try{
-            if(null == returnValue) {
-                return;
-            }
             if(returnValue instanceof Map) {
                 Map<String, Object> dataModel = (Map<String, Object>) returnValue;
                 for(String key: dataModel.keySet()) {
