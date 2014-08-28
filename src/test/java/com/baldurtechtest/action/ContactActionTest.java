@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
+
 public class ContactActionTest {
     ContactAction contactAction;
     HttpServletRequest req;
@@ -25,10 +27,27 @@ public class ContactActionTest {
     }
     
     @Test
-    public void 当调用index方法时重定向到contact_list() throws java.io.IOException{
+    public void 当调用index方法时重定向到contact_list() throws IOException{
         contactAction.index();
         
         verify(resp).sendRedirect("contact/list");
     }
     
+    @Test
+    public void Uri_contact_show当id为null时应该跳转到list页面() throws IOException {
+        when(req.getParameter("id")).thenReturn(null);
+        
+        contactAction.show();
+        
+        verify(resp).sendRedirect("contact/list");
+    }
+    
+    @Test
+    public void Uri_contact_show当id为blank时应该跳转到list页面() throws IOException {
+        when(req.getParameter("id")).thenReturn("");
+        
+        contactAction.show();
+        
+        verify(resp).sendRedirect("contact/list");
+    }
 }
