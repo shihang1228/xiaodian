@@ -8,7 +8,7 @@ import com.baldurtech.action.Action;
 
 import java.util.Map;
 
-public class JspTemplateEngine {
+public class JspTemplateEngine implements TemplateEngine{
     ServletContext servletContext;
     HttpServletRequest req;
     HttpServletResponse resp;
