@@ -1,7 +1,7 @@
 <%@ page import="com.baldurtech.domain.Contact" %>
 <%
 Contact contact = (Contact) request.getAttribute("data");
-String message = (String) request.getAttribute("flash.message");
+String message = (String) request.getAttribute("message");
 if(null == message) message = "";
 %>
 <html>
@@ -21,4 +21,3 @@ if(null == message) message = "";
     <a href="list">List all contacts</a>
   </body>
 </html>
-

@@ -5,9 +5,13 @@ import com.baldurtech.domain.Contact;
 public class ContactManager {
     
     public Contact show(String id) {
-        return new Contact(){{
-            setId(1l);
-            setName("Ren Jian");
-        }};
+        if(id != null) {
+            return new Contact(){{
+                setId(1l);
+                setName("Ren Jian");
+            }};
+        }else{
+            return null;
+        }
     }
 }

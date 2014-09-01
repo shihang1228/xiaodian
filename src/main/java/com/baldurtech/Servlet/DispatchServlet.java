@@ -36,7 +36,7 @@ public class DispatchServlet extends HttpServlet {
                 JspTemplateEngine template = new JspTemplateEngine(getServletContext(), req, resp);
                 template.merge(getViewPage(uri), returnValue);
             }
-        } catch(NoSuchMethodException me) {
+        }catch(NoSuchMethodException me) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }catch(ClassNotFoundException fe) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);

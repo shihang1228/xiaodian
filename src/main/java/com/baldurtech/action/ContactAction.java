@@ -8,6 +8,7 @@ import com.baldurtech.domain.Contact;
 import com.baldurtech.manager.ContactManager;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.io.IOException;
 
 public class ContactAction extends Action{
@@ -45,6 +46,12 @@ public class ContactAction extends Action{
             }
             return null;
         }
-        return  contactManager.show(req.getParameter("id"));
+        System.out.println(req.getParameter("id"));
+        System.out.println(contactManager.show(req.getParameter("id")));
+        if(null == contactManager.show(req.getParameter("id"))) {          
+            flashMessage("Contact Not Found!");
+            forwardAction("contact/list", new HashMap<String, Object>());
+        }
+        return contactManager.show(req.getParameter("id"));
     }
 }

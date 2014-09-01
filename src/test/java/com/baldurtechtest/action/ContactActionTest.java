@@ -73,4 +73,14 @@ public class ContactActionTest {
         
         assertEquals(contact, contactAction.show());
     }
+    
+    @Test
+    public void 当id合法但对应的contact不存在返回对应的处理() {
+        when(req.getParameter("id")).thenReturn("1");
+        when(contactManager.show("1")).thenReturn(null);
+                
+        ContactAction spy = spy(contactAction);
+        spy.show();
+        verify(spy).flashMessage("Contact Not Found!");
+    }
 }
