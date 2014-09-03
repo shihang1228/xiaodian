@@ -3,14 +3,17 @@ package com.baldurtech.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
+import org.mockito.InOrder;
 
 import com.baldurtech.domain.Contact;
 import com.baldurtech.manager.ContactManager;
+import java.util.HashMap;
 
 import java.io.IOException;
 
@@ -74,7 +77,7 @@ public class ContactActionTest {
         assertEquals(contact, contactAction.show());
     }
     
-    @Test
+   /* @Test
     public void 当id合法但对应的contact不存在返回对应的处理() {
         when(req.getParameter("id")).thenReturn("1");
         when(contactManager.show("1")).thenReturn(null);
@@ -82,5 +85,19 @@ public class ContactActionTest {
         ContactAction spy = spy(contactAction);
         spy.show();
         verify(spy).flashMessage("Contact Not Found!");
+    }
+    */
+    @Test
+    public void 测试forwardAction能正确设置参数并跳转() throws Exception{
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+        InOrder inOrder = inOrder(req, servletContext, dispatcher);
+        when(servletContext.getRequestDispatcher("/contact/show.do")).thenReturn(dispatcher);
+        
+        contactAction.forwardAction("contact/show", new HashMap<String, Object>(){{put("name1", "xiaobaiOne"); put("name2", "xiaobaiTwo");}});
+        
+        inOrder.verify(req, times(1)).setAttribute("name1", "xiaobaiOne");
+        inOrder.verify(req, times(1)).setAttribute("name2", "xiaobaiTwo");
+        inOrder.verify(servletContext).getRequestDispatcher("/contact/show.do");
+        inOrder.verify(dispatcher).forward(req, resp);
     }
 }
