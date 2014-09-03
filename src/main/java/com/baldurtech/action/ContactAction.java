@@ -50,7 +50,7 @@ public class ContactAction extends Action{
         System.out.println(contactManager.show(req.getParameter("id")));
         if(null == contactManager.show(req.getParameter("id"))) {          
             flashMessage("Contact Not Found!");
-            forwardAction("contact/list", new HashMap<String, Object>());
+            forwardAction("contact/list");
         }
         return contactManager.show(req.getParameter("id"));
     }

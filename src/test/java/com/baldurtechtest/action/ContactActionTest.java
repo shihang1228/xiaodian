@@ -77,18 +77,21 @@ public class ContactActionTest {
         assertEquals(contact, contactAction.show());
     }
     
-   /* @Test
-    public void 当id合法但对应的contact不存在返回对应的处理() {
+    @Test
+    public void 当id合法但对应的contact不存在返回对应的处理() {        
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+        ContactAction spy = spy(contactAction);
         when(req.getParameter("id")).thenReturn("1");
         when(contactManager.show("1")).thenReturn(null);
-                
-        ContactAction spy = spy(contactAction);
+        when(servletContext.getRequestDispatcher("/contact/list.do")).thenReturn(dispatcher);
+               
         spy.show();
+        verify(spy).forwardAction("contact/list");
         verify(spy).flashMessage("Contact Not Found!");
     }
-    */
+    
     @Test
-    public void 测试forwardAction能正确设置参数并跳转() throws Exception{
+    public void 测试forwardAction有数据时能正确传送数据并跳转() throws Exception{
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
         InOrder inOrder = inOrder(req, servletContext, dispatcher);
         when(servletContext.getRequestDispatcher("/contact/show.do")).thenReturn(dispatcher);
@@ -99,5 +102,16 @@ public class ContactActionTest {
         inOrder.verify(req, times(1)).setAttribute("name2", "xiaobaiTwo");
         inOrder.verify(servletContext).getRequestDispatcher("/contact/show.do");
         inOrder.verify(dispatcher).forward(req, resp);
+    }
+    
+    @Test
+    public void 测试forwardAction无数据时能正确跳转() throws Exception{
+        RequestDispatcher dispatcher = mock(RequestDispatcher.class);
+        when(servletContext.getRequestDispatcher("/contact/show.do")).thenReturn(dispatcher);
+        
+        contactAction.forwardAction("contact/show");
+        
+        verify(servletContext).getRequestDispatcher("/contact/show.do");
+        verify(dispatcher).forward(req, resp);
     }
 }

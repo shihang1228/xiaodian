@@ -47,5 +47,15 @@ public abstract class Action {
         } catch(ServletException se) {
 
         }
+    } 
+    
+    public void forwardAction(String uri) {
+        try {
+            servletContext.getRequestDispatcher("/" + uri + ".do").forward(req, resp);
+        } catch(IOException ie) {
+
+        } catch(ServletException se) {
+
+        }
     }   
 }
